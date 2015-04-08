@@ -7,10 +7,13 @@ source("data.R")
 
 tablea <- read.tablea("../data/TableA.txt")
 
+nlangs <- nrow(tablea)
+
 tablea.param.freqs <- tablea.long(tablea) %>%
     group_by(variable) %>%
     summarize(plus = sum(value == "+"),
-              minus = sum(value == "-")) %>%
+              minus = sum(value == "-"),
+              zero = sum(value == "0")) %>%
     mutate(p = plus / (plus + minus))
 
 ## Adapted from the waffle package <https://github.com/hrbrmstr/waffle>
@@ -19,12 +22,19 @@ lvls <- length(levels(tablea.param.freqs$variable))
 dat <- expand.grid(x = seq_len(ceiling(lvls / cols)),
                    y = cols:1)
 dat$value <- c(tablea.param.freqs$p,
-               rep(NA, nrow(dat) - nrow(tablea.param.freqs)))
-indiv.params <- ggplot(dat, aes(x = x, y = y, fill = value)) +
-  geom_tile(color = "white", size = 2) +
+               rep(NA, nrow(dat) - nrow(tablea.param.freqs))
+               )
+dat$zero <- c(tablea.param.freqs$zero,
+              rep(NA, nrow(dat) - nrow(tablea.param.freqs))
+              )
+indiv.params <- ggplot(dat, aes(x = x, y = y, color = value,
+                                size = 100 * (1 - zero / nlangs))) +
+  geom_point(shape = 15) +
+  scale_size_area(name = "Percent non-0", max_size = 10,
+                  breaks = c(100, 50)) +
   labs(x = "ones", y = "tens", title = "Individual parameter values") +
-  scale_x_continuous(expand = c(0, 0), breaks = 1:10, labels = c(1:10)) +
-  scale_y_continuous(expand = c(0, 0), breaks = 1:7, labels = 6:0) +
+  scale_x_continuous(expand = c(0.05, 0.05), breaks = 1:10, labels = c(1:10)) +
+  scale_y_continuous(expand = c(0.05, 0.05), breaks = 1:7, labels = 6:0) +
   coord_equal() +
   theme(panel.grid = element_blank(),
         panel.border = element_blank(),
@@ -39,8 +49,10 @@ indiv.params <- ggplot(dat, aes(x = x, y = y, fill = value)) +
         plot.title = element_text(size = 18),
         plot.background = element_blank(),
         plot.margin = unit(c(0, 0, 0, 0), "null"),
-        plot.margin = rep(unit(0, "null"), 4)) +
-  scale_fill_gradient2(name = "", midpoint = 0.5)
+        plot.margin = rep(unit(0, "null"), 4),
+        legend.key = element_blank()
+      ) +
+  scale_color_gradient2(name = "", midpoint = 0.5, mid = "grey80")
 
 params.overall <-
     ggplot(tablea.param.freqs, aes(x = p)) +
@@ -52,11 +64,14 @@ params.overall <-
       theme(plot.title = element_text(size = 18),
             plot.margin = unit(c(0,3,0,0), "cm"),
             panel.border = element_blank(),
+            axis.title = element_text(size = 10),
             panel.background = element_blank(),
             panel.grid.major.x = element_blank(),
             panel.grid.minor.x = element_blank())
 
 png("../figures/parameter-tendencies.png", width = 6, height = 6, units = "in",
     res = 300)
+
 grid.arrange(params.overall, indiv.params, ncol = 1, heights = c(0.4, 0.6))
+
 dev.off()
