@@ -123,6 +123,7 @@ ST <- c("Man", "Can")
 Sem <- c("Heb", "Ar")
 FU <- c("Hu","Fin","Est")
 Tur <- c("Tur","Bur")
+Alt <- Tur
 Bas <- c("cB","wB")
 
 rm.intrafam.pairs <- function (tabled) {
