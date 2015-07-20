@@ -133,7 +133,13 @@ rm.intrafam.pairs <- function (tabled) {
                      a %in% Sem & b %in% Sem |
                      a %in% FU & b %in% FU |
                      a %in% Tur & b %in% Tur |
-                     a %in% Bas & b %in% Bas))
+                     a %in% Bas & b %in% Bas |
+                     a == "Ka" & b == "Ka" |
+                     a == "Ku" & b == "Ku" |
+                     a == "Jap" & b == "Jap" |
+                     a == "Inu" & b == "Inu" |
+                     a == "Wo" & b == "Wo"
+                 ))
     return (td)
 }
 
