@@ -2,11 +2,13 @@ library(ggplot2)
 library(grid)
 
 rand <- read.random("../data/random.txt")
-rand$Type <- "Random"
+
+rand$Type <- "Rand."
 rand$ind <- TRUE
+
 data <- rbind(rand,
               data.frame(dist = tabled$dist,
-                         Type = "Observed",
+                         Type = "Obs.",
                          ind = TRUE))
 
 png("../figures/distributions.png", width = 6, height = 6, units = "in",
@@ -28,24 +30,28 @@ td.nif <- rm.intrafam.pairs(tabled)
 
 data <- rbind(data,
               data.frame(dist = td.nif$dist,
-                         Type = "Obs. (no intra-fam.)",
+                         Type = "Obs. (cross-fam.)",
                          ind = FALSE))
+data$Type <- factor(data$Type, levels = c("Obs. (cross-fam.)", "Obs.", "Rand.")
+
+hues <- seq(15, 375, length=4)
+colors <- hcl(h=hues, l=65, c=100)[c(2,1,3)]
 
 ## Figure 2
-png("../figures/distributions2.png", width = 6, height = 6, units = "in",
+tiff("../figures/distributions2.tif", width = 8.7, height = 8.7, units = "cm",
     res = 300)
-
 ggplot(data, aes(x = dist, color = Type, size = Type, linetype = Type)) +
   geom_density(adjust = 2) +
   theme_bw() +
   ylab("") +
   xlab("Distance") +
-  scale_linetype_manual(values = c("dashed", "solid", "solid")) +
-  scale_size_manual(values = c(0.5,1,1)) +
-  theme(plot.margin = unit(c(0,0,0,0), "mm"),
+  scale_linetype_manual(values = c("solid", "dashed", "solid")) +
+  scale_color_manual(values = colors) +
+  scale_size_manual(values = c(1,0.5,1)) +
+  theme(plot.margin = unit(c(0,2,0,0), "mm"),
         axis.text.y = element_blank(),
-        axis.ticks.y = element_blank())
-
+        axis.ticks.y = element_blank(),
+        legend.position = "bottom")
 dev.off()
 
 pdf("../figures/distributions-poster.pdf", width = 6, height = 3)
@@ -150,8 +156,7 @@ pair.dots <- function (tabled) {
     scale_x_discrete(limits=c("IE","IE/Fin-Ugr","IE/Basque","IE/Sem","IE/Alt",
                               "IE/Inuk","Fin-Ugr/Altaic")) +
     xlab("Comparison type") +
-    ylab("Proportion below critical thresh.") +
-    theme(text = element_text(size = 8))
+    ylab("Proportion below critical thresh.")
 }
 
 pair.dots.mean <- function (tabled) {
@@ -163,11 +168,10 @@ pair.dots.mean <- function (tabled) {
     geom_point(aes(size = n)) +
     scale_size_area("Number of pairs") +
     coord_cartesian(ylim=c(-0.05,1.05)) +
-    scale_x_discrete(limits=c("IE","IE/Fin-Ugr","IE/Alt","IE/Basque","IE/Sem","Fin-Ugr/Altaic",
-                              "IE/Inuk")) +
+    scale_x_discrete(limits=c("IE","IE/Fin-Ugr","IE/Alt","IE/Basque",
+                              "IE/Sem","Fin-Ugr/Altaic","IE/Inuk")) +
     xlab("Comparison type") +
-    ylab("Proportion below critical thresh.") +
-    theme(text = element_text(size = 8))
+    ylab("Proportion below critical thresh.")
 }
 
 ## Figure 4
@@ -175,8 +179,12 @@ pdf("../figures/pair-dots.pdf", width = 6, height = 6)
 pair.dots(tabled)
 dev.off()
 
-png("../figures/pair-dots.png", width = 6, height = 6, units = "in", res = 300)
-pair.dots(tabled)
+tiff("../figures/pair-dots.tiff", width = 8.7, height = 8.7, units = "cm", res = 300)
+pair.dots(tabled) +
+  theme(#legend.position = "bottom",
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
+  ylab("Prop. below crit. thresh.") +
+  scale_size_area("# pairs")
 dev.off()
 
 one.ie <- sum((tabled$a %in% IE & ! (tabled$b %in% IE)) |
