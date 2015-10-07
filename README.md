@@ -42,6 +42,7 @@ The repository is organized into the following directories:
   - `misc-calcs.R` contains code to generate some of the numbers quoted
     in the text
   - `regress.R` and `param-tendencies.R` are not currently used.
+  - `generate.py` contains the python code for generating random languages.
 - `data` data for the analysis
   - `taba.csv` Table A
   - `impls.txt` implications.  Format is X;Y means X will be set to 0
