@@ -27,18 +27,19 @@ The repository is organized into the following directories:
 - `code`: Code for the analysis
   - `data.R` functions for reading in data
   - The figures in the article are generated as follows:
-    - 1: manually
+    - 1: `dist-plots.R`
     - 2: `dist-plots.R`
-    - 3: `misc-calcs.R`
-    - 4: `dist-plots.R`
     - 1S: manually
     - 2S: manually
     - 3S: `network.R`
-    - 4S: Manually
+    - 4S: manually
     - 5S: `tabled` from `data.R`
     - 6S: `trees.R` with manual adjustments for presentation
     - 7S: manually
     - 8S: manually
+  - Tables:
+    - 1: manually
+    - 3: `misc-calcs.R`
   - `misc-calcs.R` contains code to generate some of the numbers quoted
     in the text
   - `regress.R` and `param-tendencies.R` are not currently used.
