@@ -60,3 +60,9 @@ The repository is organized into the following directories:
   Roberts (2012)
 - `poster` LaTeX source for a poster version of these results presented
   at DiGS17 in Iceland (May 2015)
+
+## Copyright
+
+The materials in this repository are copyright of the authors.  They are
+made available for scientific purposes, but you must ask permission
+before redistributing them in any way.
