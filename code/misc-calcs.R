@@ -2,7 +2,6 @@ p <- function (...) {
     print(paste0(...))
 }
 
-
 ## First paragraph under "sampling statistics" (langs); first para below "how
 ## many langs are there" (params)
 print(paste0("TableA has ", ncol(tablea), " languages and ", nrow(tablea), " parameters"))
@@ -24,6 +23,8 @@ p("Median test p-value is ", median.test(tabled$dist, rand$dist))
 p("Median test w/o intrafamily pairs is ", median.test(td.nif$dist, rand$dist))
 
 subset(tabled, dist > 0.5)
+
+## Figure 3
 
 quantile(rand$dist, 0.001)
 quantile(rand$dist, 0.0001)

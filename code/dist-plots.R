@@ -31,6 +31,7 @@ data <- rbind(data,
                          Type = "Obs. (no intra-fam.)",
                          ind = FALSE))
 
+## Figure 2
 png("../figures/distributions2.png", width = 6, height = 6, units = "in",
     res = 300)
 
@@ -169,7 +170,7 @@ pair.dots.mean <- function (tabled) {
     theme(text = element_text(size = 8))
 }
 
-
+## Figure 4
 pdf("../figures/pair-dots.pdf", width = 6, height = 6)
 pair.dots(tabled)
 dev.off()

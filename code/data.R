@@ -143,3 +143,4 @@ rm.intrafam.pairs <- function (tabled) {
 
 tablea <- read.tablea("../data/taba.csv")
 tabled <- calc.table.d(tablea)
+rand <- read.random("../data/random.txt")

@@ -29,13 +29,13 @@ The repository is organized into the following directories:
   - The figures in the article are generated as follows:
     - 1: manually
     - 2: `dist-plots.R`
-    - 3: XXXXX
-    - 4: XXXXX
+    - 3: `misc-calcs.R`
+    - 4: `dist-plots.R`
     - 1S: manually
     - 2S: manually
     - 3S: `network.R`
     - 4S: Manually
-    - 5S: XXXXX
+    - 5S: `tabled` from `data.R`
     - 6S: `trees.R` with manual adjustments for presentation
     - 7S: manually
     - 8S: manually
