@@ -1,6 +1,12 @@
 This repository contains the supplementary material to the article
 “Mathematical modeling of grammatical diversity successfully addresses
-core probabilistic issues in historical linguistics” authored by:
+core probabilistic issues in historical linguistics.”  This was produced
+by the [LanGeLin project][langelin] team with the support of ERC advanced grant
+\#295736.
+
+[langelin]: https://www.york.ac.uk/language/research/projects/langelin/
+
+The authors of the article are:
 
 - Giuseppe Longobardi
 - Andrea Ceolin
