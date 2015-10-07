@@ -41,8 +41,8 @@ tabled$close <- tabled$dist < quantile(rand$dist, 0.001)
 
 tabled$close2 <- tabled$dist < median(tabled$dist)
 
-with(rm.intrafam.pairs(tabled), table(euras, close2))
-fisher.test(with(rm.intrafam.pairs(tabled), table(euras, close2)))
+with(rm.intrafam.pairs(tabled), table(euras, close))
+fisher.test(with(rm.intrafam.pairs(tabled), table(euras, close)))
 
 
 sum(rm.intrafam.pairs(tabled)$dist < quantile(rand$dist, 0.001))

@@ -3,9 +3,11 @@ library(grid)
 
 rand <- read.random("../data/random.txt")
 rand$Type <- "Random"
+rand$ind <- TRUE
 data <- rbind(rand,
               data.frame(dist = tabled$dist,
-                         Type = "Observed"))
+                         Type = "Observed",
+                         ind = TRUE))
 
 png("../figures/distributions.png", width = 6, height = 6, units = "in",
     res = 300)
@@ -26,16 +28,19 @@ td.nif <- rm.intrafam.pairs(tabled)
 
 data <- rbind(data,
               data.frame(dist = td.nif$dist,
-                         Type = "Obs. (no intra-fam.)"))
+                         Type = "Obs. (no intra-fam.)",
+                         ind = FALSE))
 
 png("../figures/distributions2.png", width = 6, height = 6, units = "in",
     res = 300)
 
-ggplot(data, aes(x = dist, color = Type)) +
+ggplot(data, aes(x = dist, color = Type, size = Type, linetype = Type)) +
   geom_density(adjust = 2) +
   theme_bw() +
   ylab("") +
   xlab("Distance") +
+  scale_linetype_manual(values = c("dashed", "solid", "solid")) +
+  scale_size_manual(values = c(0.5,1,1)) +
   theme(plot.margin = unit(c(0,0,0,0), "mm"),
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank())
@@ -92,10 +97,14 @@ classify.pair <- function (a, b) {
            ifelse(z == "FUTur", "Fin-Ugr/Altaic",
            ifelse(z == "IESem", "IE/Sem",
            ifelse(z == "IETur", "IE/Alt",
-           ifelse(z == "IEInu", "IE/Inuk", "Other"))))))
+           ifelse(z == "IEInu", "IE/Inuk",
+           ifelse(z == "IEIE", "IE", "Other")))))))
 }
 
 tabled.close$class <- classify.pair(tabled.close$a, tabled.close$b)
+
+tabled$class <- classify.pair(tabled$a, tabled$b)
+
 
 tab <- table(tabled.close$class)
 nms <- rownames(tab)[order(tab, decreasing = TRUE)]
@@ -127,21 +136,46 @@ ggplot(tabled.close, aes(x = class)) +
 
 dev.off()
 
-tabled$class <- classify.pair(tabled$a, tabled$b)
+pair.dots <- function (tabled) {
+    tabled %>%
+    filter(class != "Other") %>%
+    group_by(class) %>%
+    summarize(n = n(), s = sum(close)) %>%
+    mutate(p = s/n) %>%
+    ggplot(aes(x = class, y = p)) +
+    geom_point(aes(size = n)) +
+    scale_size_area("Number of pairs") +
+    coord_cartesian(ylim=c(-0.05,1.05)) +
+    scale_x_discrete(limits=c("IE","IE/Fin-Ugr","IE/Basque","IE/Sem","IE/Alt",
+                              "IE/Inuk","Fin-Ugr/Altaic")) +
+    xlab("Comparison type") +
+    ylab("Proportion below critical thresh.") +
+    theme(text = element_text(size = 8))
+}
+
+pair.dots.mean <- function (tabled) {
+    tabled %>%
+    filter(class != "Other") %>%
+    group_by(class) %>%
+    summarize(n = n(), mean = mean(dist), median = median(dist)) %>%
+    ggplot(aes(x = class, y = median)) +
+    geom_point(aes(size = n)) +
+    scale_size_area("Number of pairs") +
+    coord_cartesian(ylim=c(-0.05,1.05)) +
+    scale_x_discrete(limits=c("IE","IE/Fin-Ugr","IE/Alt","IE/Basque","IE/Sem","Fin-Ugr/Altaic",
+                              "IE/Inuk")) +
+    xlab("Comparison type") +
+    ylab("Proportion below critical thresh.") +
+    theme(text = element_text(size = 8))
+}
+
 
 pdf("../figures/pair-dots.pdf", width = 6, height = 6)
+pair.dots(tabled)
+dev.off()
 
-tabled %>%
-  rm.intrafam.pairs %>%
-  filter(class != "Other") %>%
-  group_by(class) %>%
-  summarize(n = n(), s = sum(close)) %>%
-  mutate(p = s/n) %>%
-  ggplot(aes(x = class, y = p)) +
-  geom_point(aes(size = n)) +
-  scale_size_area() +
-  coord_cartesian(ylim=c(-0.05,1.05))
-
+png("../figures/pair-dots.png", width = 6, height = 6, units = "in", res = 300)
+pair.dots(tabled)
 dev.off()
 
 one.ie <- sum((tabled$a %in% IE & ! (tabled$b %in% IE)) |

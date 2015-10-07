@@ -126,6 +126,8 @@ Tur <- c("Tur","Bur")
 Alt <- Tur
 Bas <- c("cB","wB")
 
+Neighbors <- c(IE, Sem, FU, Alt, Bas)
+
 rm.intrafam.pairs <- function (tabled) {
     td <- filter(tabled,
                  !(a %in% IE & b %in% IE |
@@ -133,12 +135,7 @@ rm.intrafam.pairs <- function (tabled) {
                      a %in% Sem & b %in% Sem |
                      a %in% FU & b %in% FU |
                      a %in% Tur & b %in% Tur |
-                     a %in% Bas & b %in% Bas |
-                     a == "Ka" & b == "Ka" |
-                     a == "Ku" & b == "Ku" |
-                     a == "Jap" & b == "Jap" |
-                     a == "Inu" & b == "Inu" |
-                     a == "Wo" & b == "Wo"
+                     a %in% Bas & b %in% Bas
                  ))
     return (td)
 }
