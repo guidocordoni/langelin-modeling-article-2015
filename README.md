@@ -28,7 +28,6 @@ The repository is organized into the following directories:
   - `data.R` functions for reading in data
   - The figures in the article are generated as follows:
     - 1: `dist-plots.R`
-    - 2: `dist-plots.R`
     - 1S: manually
     - 2S: manually
     - 3S: `network.R`
@@ -39,7 +38,9 @@ The repository is organized into the following directories:
     - 8S: manually
   - Tables:
     - 1: manually
+    - 2: manually
     - 3: `misc-calcs.R`
+    - 4: `misc-calcs.R`
   - `misc-calcs.R` contains code to generate some of the numbers quoted
     in the text
   - `regress.R` and `param-tendencies.R` are not currently used.

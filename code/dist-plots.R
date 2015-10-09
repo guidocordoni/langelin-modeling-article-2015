@@ -174,7 +174,6 @@ pair.dots.mean <- function (tabled) {
     ylab("Proportion below critical thresh.")
 }
 
-## Figure 4
 pdf("../figures/pair-dots.pdf", width = 6, height = 6)
 pair.dots(tabled)
 dev.off()

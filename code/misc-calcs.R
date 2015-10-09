@@ -24,7 +24,7 @@ p("Median test w/o intrafamily pairs is ", median.test(td.nif$dist, rand$dist))
 
 subset(tabled, dist > 0.5)
 
-## Figure 3
+## Table 3
 
 quantile(rand$dist, 0.001)
 quantile(rand$dist, 0.0001)
@@ -47,3 +47,32 @@ fisher.test(with(rm.intrafam.pairs(tabled), table(euras, close)))
 
 
 sum(rm.intrafam.pairs(tabled)$dist < quantile(rand$dist, 0.001))
+
+## Table 4
+
+tabled %>%
+  filter(class != "Other") %>%
+  group_by(class) %>%
+  summarize(n = n(), s = sum(close)) %>%
+  mutate(p = s/n) %>%
+  arrange(desc(n)) %>%
+  write.table(row.names = FALSE, quote = FALSE, sep = "\t")
+
+## Table D
+
+tabled.compact <- matrix(0, nrow = ncol(tablea), ncol = ncol(tablea))
+for (i in 1:ncol(tablea)) {
+    for (j in 1:i) {
+        if (i != j) {
+            tabled.compact[i,j] <- subset(tabled,
+            (a == colnames(tablea)[i] &
+             b == colnames(tablea)[j]) |
+            (a == colnames(tablea)[j] &
+             b == colnames(tablea)[i]))$dist
+        }
+    }
+}
+rownames(tabled.compact) <- colnames(tablea)
+colnames(tabled.compact) <- colnames(tablea)
+
+write.table(tabled.compact, sep = "\t", quote = FALSE)
