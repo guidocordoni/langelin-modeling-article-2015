@@ -111,7 +111,7 @@ calc.table.d <- function (tablea) {
 
 read.random <- function (path) {
     r <- read.delim(path, sep = "\t", header = FALSE)
-    r <- data.frame(dist = r[,2])
+    r <- data.frame(dist = r[,1])
 
     return (r)
 }

@@ -53,10 +53,12 @@ The repository is organized into the following directories:
     external Z)
   - `random.txt` Our sample of random languages.  Tab separated values,
     columns are:
-    1. meaningless
-    2. distance
-    3. number of (non-zero) parameter identities
-    4. number of (non-zero) parameter differences
+    1. distance
+    2. number of (non-zero) parameter identities
+    3. number of (non-zero) parameter differences
+    **NOTE**: this file is large (~150MB).  You will need to install and
+    configure the [git-lfs](https://git-lfs.github.com/) plugin in order
+    to download it.
   - `TableA.txt` unused older version/format of Table A.
 - `figures` output directory for figures; also contains the source for
   an (unused) illustration of parameter-setting from Biberauer and
