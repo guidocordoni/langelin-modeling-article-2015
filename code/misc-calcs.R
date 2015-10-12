@@ -75,4 +75,6 @@ for (i in 1:ncol(tablea)) {
 rownames(tabled.compact) <- colnames(tablea)
 colnames(tabled.compact) <- colnames(tablea)
 
-write.table(tabled.compact, sep = "\t", quote = FALSE)
+write.table(tabled.compact, sep = "\t", quote = FALSE) # For the article
+
+write.csv(tabled.compact, file="data/tabled.csv") # For the repo
