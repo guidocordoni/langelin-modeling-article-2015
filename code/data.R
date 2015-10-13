@@ -56,9 +56,6 @@ read.tablea <- function (file) {
     ## relevant for other languages
     r <- remove.params(r, c("AGS", "AGO", "EM1", "DPN", "NTD", "OKP", "FVP", "ASF"))
 
-    ## Remove parameters with question marks
-    r <- remove.params(r, "ACP")
-
     return (r)
 }
 
