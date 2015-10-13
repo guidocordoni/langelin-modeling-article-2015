@@ -32,7 +32,7 @@ data <- rbind(data,
               data.frame(dist = td.nif$dist,
                          Type = "Obs. (cross-fam.)",
                          ind = FALSE))
-data$Type <- factor(data$Type, levels = c("Obs. (cross-fam.)", "Obs.", "Rand.")
+data$Type <- factor(data$Type, levels = c("Obs. (cross-fam.)", "Obs.", "Rand."))
 
 hues <- seq(15, 375, length=4)
 colors <- hcl(h=hues, l=65, c=100)[c(2,1,3)]
