@@ -41,7 +41,7 @@ colors <- hcl(h=hues, l=65, c=100)[c(2,1,3)]
 tiff("../figures/distributions2.tif", width = 8.7, height = 8.7, units = "cm",
     res = 300)
 ggplot(data, aes(x = dist, color = Type, size = Type, linetype = Type)) +
-  geom_density(adjust = 2) +
+  geom_density(adjust = 5) +
   theme_bw() +
   ylab("") +
   xlab("Distance") +
