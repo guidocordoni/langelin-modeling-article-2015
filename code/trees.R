@@ -1,5 +1,8 @@
 library(phangorn)
 library(Rphylip)
+library(memisc)
+library(ggtree)
+library(dplyr)
 
 make.distance.matrix <- function (tabled) {
     langs <- union(levels(factor(tabled$a)), levels(factor(tabled$b)))
@@ -31,6 +34,51 @@ make.kitsch <- function (dists) {
 
     return (t)
 }
+
+lang.to.name <- function (x) {
+    return (memisc::recode(x,
+                           "SicRG" -> "Sicilian",
+                           "It" -> "Italian",
+                           "Sp" -> "Spanish",
+                           "Fr" -> "French",
+                           "Ptg" -> "Portuguese",
+                           "Rm" -> "Romanian",
+                           "Grk" -> "Greek (standard)",
+                           "CyG" -> "Cypriot Greek",
+                           "E" -> "English",
+                           "D" -> "German",
+                           "Da" -> "Danish",
+                           "Ice" -> "Icelandic",
+                           "Nor" -> "Norwegian",
+                           "Blg" -> "Bulgarian",
+                           "SC" -> "Serbo-Croatian",
+                           "Slo" -> "Slovenian",
+                           "Po" -> "Polish",
+                           "Rus" -> "Russian",
+                           "Ir" -> "Irish",
+                           "Wel" -> "Welsh",
+                           "Ma" -> "Marathi",
+                           "Hi" -> "Hindi",
+                           "Far" -> "Farsi",
+                           "Pas" -> "Pashto",
+                           "Ar" -> "Arabic",
+                           "Heb" -> "Hebrew",
+                           "Hu" -> "Hungarian",
+                           "Est" -> "Estonian",
+                           "Fin" -> "Finnish",
+                           "Tur" -> "Turkish",
+                           "Bur" -> "Buryat",
+                           "cB" -> "Basque (central)",
+                           "wB" -> "Basque (western)",
+                           "Can" -> "Cantonese",
+                           "Man" -> "Mandarin",
+                           "Inu" -> "Inuktitut",
+                           "Wo" -> "Wolof",
+                           "Ka" -> "Kadiweu",
+                           "Ku" -> "Kuikuro",
+                           "Jap" -> "Japanese"))
+}
+
 
 ## Actually produce the trees
 
@@ -71,14 +119,25 @@ dev.off()
 pdf("../figures/treethree.pdf", width = 6, height = 8)
 
 tablea.three <-
-    select(tablea,
-           SicRG, It, Sp, Fr, Ptg, Rm, Grk, CyG, E, D, Da,
-           Ice, Nor, Blg, SC, Slo, Po, Rus, Ir, Wel, Ma, Hi,
-           Far, Pas, Ar, Heb, Hu, Est, Fin, Tur, Bur,cB,
-           wB, Can, Man, Inu, Wo, Ka, Ku, Jap)
+  dplyr::select(tablea,
+                SicRG, It, Sp, Fr, Ptg, Rm, Grk, CyG, E, D, Da,
+                Ice, Nor, Blg, SC, Slo, Po, Rus, Ir, Wel, Ma, Hi,
+                Far, Pas, Ar, Heb, Hu, Est, Fin, Tur, Bur, cB,
+                wB, Can, Man, Inu, Wo, Ka, Ku, Jap)
+
 dists.three <- calc.table.d(tablea.three)
+
+dists.three$a <- lang.to.name(dists.three$a)
+dists.three$b <- lang.to.name(dists.three$b)
+
 dm.three <- make.distance.matrix(dists.three)
-plot(make.kitsch(dm.three), no.margin = TRUE)
+
+kitsch <- make.kitsch(dm.three)
+
+g <- ggtree(kitsch) + geom_tiplab() + scale_x_continuous(limits = c(0,0.25))
+g <- flip(g, 71, 69)
+g <- flip(g, 75, 73)
+print(g)
 
 dev.off()
 
