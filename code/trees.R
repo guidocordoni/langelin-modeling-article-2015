@@ -116,7 +116,7 @@ dev.off()
 
 ## Three: adding Ka and Ku
 
-pdf("../figures/treethree.pdf", width = 6, height = 8)
+tiff("../figures/treethree.tif", width = 6, height = 8, units = "in", res = 300)
 
 tablea.three <-
   dplyr::select(tablea,
@@ -135,8 +135,6 @@ dm.three <- make.distance.matrix(dists.three)
 kitsch <- make.kitsch(dm.three)
 
 g <- ggtree(kitsch) + geom_tiplab() + scale_x_continuous(limits = c(0,0.25))
-g <- flip(g, 71, 69)
-g <- flip(g, 75, 73)
 print(g)
 
 dev.off()
