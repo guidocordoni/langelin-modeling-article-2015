@@ -59,6 +59,10 @@ The repository is organized into the following directories:
     **NOTE**: this file is large (~150MB).  You will need to install and
     configure the [git-lfs](https://git-lfs.github.com/) plugin in order
     to download it.
+  - `random40.txt` the results of our random sample of 40 languages.
+    Each line in the file represents a trial (N=1000).  The values are
+    space-separated language distances; each language pair is
+    represented twice (distance A->B and B->A)
   - `TableA.txt` unused older version/format of Table A.
 - `figures` output directory for figures; also contains the source for
   an (unused) illustration of parameter-setting from Biberauer and
