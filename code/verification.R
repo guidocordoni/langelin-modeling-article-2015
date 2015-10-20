@@ -21,7 +21,13 @@ nlang * (nlang-1) / 2                   # number of pairs
 
 median(tabled$dist)                     # observed median
 
-## TODO: random experiment
+medians <- apply(rand40, 1, median)     # random medians
+
+mean(medians)
+quantile(medians, c(0.05, 0.95))
+min(medians)
+
+nrow(rand)                              # Number of random pairs
 
 p("Median test p-value is ", median.test(tabled$dist, rand$dist))
 
@@ -31,11 +37,20 @@ quantile(rand$dist, 0.001)              # critical threshold
 
 sum(tabled$dist < quantile(rand$dist, 0.001)) # number of langs below thresh.
 
-sum(tabled$class == "IE") # IE pairs
+sum(tabled$a %in% IE & tabled$b %in% IE) +
+  sum(tabled$a %in% FU & tabled$b %in% FU) +
+  sum(tabled$a %in% Alt & tabled$b %in% Alt) +
+  sum(tabled$a %in% Sem & tabled$b %in% Sem) +
+  sum(tabled$a %in% Bas & tabled$b %in% Bas) +
+  sum(tabled$a %in% ST & tabled$b %in% ST)
 
-sum(tabled$dist < quantile(rand$dist, 0.001) & tabled$class == "IE") # IE below thresh
-
-sum(tabled$dist < quantile(rand$dist, 0.001) & tabled$class == "IE") / sum(tabled$class == "IE") # percentage
+sum(tabled$dist < quantile(rand$dist, 0.001) & (
+    tabled$a %in% IE & tabled$b %in% IE |
+    tabled$a %in% FU & tabled$b %in% FU |
+    tabled$a %in% Alt & tabled$b %in% Alt |
+    tabled$a %in% Sem & tabled$b %in% Sem |
+    tabled$a %in% Bas & tabled$b %in% Bas |
+    tabled$a %in% ST & tabled$b %in% ST)) # same family below thresh
 
 ## Page 5
 
@@ -54,7 +69,6 @@ hu.tur <- tabled[tabled$a == "Hu" & tabled$b == "Tur",]$dist
 
 hu.tur                                  # Hu-Tur distance
 
-## TODO: wrong random dataset
 sum(rand$dist < hu.tur) / nrow(rand)    # Hu-Tur probability
 
 ## Page 6

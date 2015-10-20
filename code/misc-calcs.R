@@ -26,9 +26,7 @@ subset(tabled, dist > 0.5)
 
 ## Table 3
 
-quantile(rand$dist, 0.001)
-quantile(rand$dist, 0.0001)
-quantile(rand$dist, 0.00001)
+round(quantile(rand$dist, c(1e-3, 1e-4, 1e-5)), 5)
 
 sum(tabled$dist < quantile(rand$dist, 0.001))
 sum(tabled$dist < quantile(rand$dist, 0.0001))

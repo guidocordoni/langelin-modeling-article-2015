@@ -116,6 +116,8 @@ dev.off()
 
 ## Three: adding Ka and Ku
 
+## Figure 5S
+
 tiff("../figures/treethree.tif", width = 6, height = 8, units = "in", res = 300)
 
 tablea.three <-

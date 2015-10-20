@@ -113,6 +113,13 @@ read.random <- function (path) {
     return (r)
 }
 
+read.random40 <- function (path) {
+    r <- read.delim(path, sep = " ", header = FALSE)
+    r <- r[,2:ncol(r)]
+
+    return (r)
+}
+
 IE <- c("SicRG", "It", "Sp", "Fr", "Ptg", "Rm", "Grk", "CyG", "E",
         "D", "Da", "Ice", "Nor", "Blg", "SC", "Slo", "Po", "Rus",
         "Ir", "Wel", "Ma", "Hi", "Far", "Pas")
@@ -138,6 +145,7 @@ rm.intrafam.pairs <- function (tabled) {
 }
 
 
-tablea <- read.tablea("data/taba.csv")
+tablea <- read.tablea("../data/taba.csv")
 tabled <- calc.table.d(tablea)
-rand <- read.random("data/random.txt")
+rand <- read.random("../data/random.txt")
+rand40 <- read.random40("../data/random-40.txt")
